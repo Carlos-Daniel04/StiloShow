@@ -1,69 +1,268 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Check,
+  Clock3,
+  Menu,
+  Scissors,
+  ShieldCheck,
+  Sparkles,
+  UserRound,
+  X,
+} from "lucide-react";
+
+const services = [
+  {
+    title: "Corte clásico",
+    description: "Precisión, acabado limpio y un estilo que habla por ti.",
+    duration: "45 min",
+    price: "RD$500",
+    icon: Scissors,
+  },
+  {
+    title: "Corte + barba",
+    description: "Un servicio completo para salir impecable de pies a cabeza.",
+    duration: "60 min",
+    price: "RD$800",
+    icon: Sparkles,
+  },
+  {
+    title: "Afeitado tradicional",
+    description: "Toalla caliente, navaja y el ritual clásico de una barbería.",
+    duration: "40 min",
+    price: "RD$600",
+    icon: ShieldCheck,
+  },
+];
+
+const barbers = [
+  { initials: "CP", name: "Carlos Pérez", specialty: "Cortes clásicos y barba" },
+  { initials: "JR", name: "Javier Rosario", specialty: "Fade y estilo urbano" },
+  { initials: "AM", name: "Alex Martínez", specialty: "Afeitado tradicional" },
+];
+
+const navigation = [
+  { label: "Inicio", href: "#inicio" },
+  { label: "Servicios", href: "#servicios" },
+  { label: "Barberos", href: "#barberos" },
+  { label: "Nosotros", href: "#nosotros" },
+];
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
+    <main className="site-shell">
+      <nav className="navbar" aria-label="Navegación principal">
+        <div className="content-width navbar-inner">
+          <a className="brand" href="#inicio" onClick={closeMenu} aria-label="StiloShow, inicio">
+            <span className="brand-mark">S</span>
+            <span>
+              <strong>StiloShow</strong>
+              <small>Barbería masculina</small>
+            </span>
           </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((open) => !open)}
           >
-            Documentation
-          </a>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          <div className={`nav-links ${isMenuOpen ? "nav-links-open" : ""}`}>
+            {navigation.map((item) => (
+              <a key={item.href} href={item.href} onClick={closeMenu}>
+                {item.label}
+              </a>
+            ))}
+            <a className="button button-small button-bronze" href="#reservar" onClick={closeMenu}>
+              Reservar una cita <ArrowRight size={16} />
+            </a>
+          </div>
         </div>
-      </main>
-    </div>
+      </nav>
+
+      <section className="hero" id="inicio">
+        <div className="hero-texture" aria-hidden="true" />
+        <div className="content-width hero-grid">
+          <div className="hero-copy">
+            <p className="eyebrow"><span /> Barbería masculina</p>
+            <h1>Tu estilo.<br /><em>Tu presencia.</em></h1>
+            <p className="hero-description">
+              Cortes precisos, barba impecable y una experiencia pensada para
+              hombres que saben cómo quieren verse.
+            </p>
+            <div className="hero-actions">
+              <a className="button button-primary" href="#reservar">
+                Reservar una cita <ArrowRight size={18} />
+              </a>
+              <a className="text-link" href="#servicios">
+                Ver servicios <span>↓</span>
+              </a>
+            </div>
+            <div className="hero-note">
+              <span className="hero-rule" />
+              <p><strong>Calidad en cada detalle.</strong><br />Tu próxima imagen empieza aquí.</p>
+            </div>
+          </div>
+          <div className="hero-visual" aria-label="Ambiente de barbería masculina StiloShow">
+            <div className="barber-poster">
+              <div className="poster-light" aria-hidden="true" />
+              <div className="poster-chair" aria-hidden="true">
+                <span className="chair-head" />
+                <span className="chair-back" />
+                <span className="chair-seat" />
+              </div>
+              <div className="poster-copy">
+                <span>STILOSHOW</span>
+                <strong>Estilo<br />con carácter</strong>
+                <small>BARBER SHOP / SINCE 2024</small>
+              </div>
+            </div>
+            <div className="floating-card">
+              <span className="floating-icon"><Check size={15} /></span>
+              <span><strong>Atención de primera</strong><small>Sin prisas, a tu manera</small></span>
+            </div>
+            <span className="visual-stamp">EST.<br /><strong>24</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <section className="trust-bar" aria-label="Beneficios de StiloShow">
+        <div className="content-width trust-inner">
+          <p><ShieldCheck size={16} /> Barberos expertos</p>
+          <span className="trust-line" />
+          <p><Clock3 size={16} /> Puntualidad y detalle</p>
+          <span className="trust-line" />
+          <p><UserRound size={16} /> Un espacio para ti</p>
+        </div>
+      </section>
+
+      <section className="section section-services" id="servicios">
+        <div className="content-width">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow"><span /> Servicios destacados</p>
+              <h2>Tu corte no es<br /><em>cualquier corte.</em></h2>
+            </div>
+            <p className="section-intro">
+              Técnicas clásicas y actuales, productos premium y un acabado
+              que mantiene tu estilo por más tiempo.
+            </p>
+          </div>
+          <div className="services-grid">
+            {services.map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <article className={`service-card ${index === 1 ? "service-card-featured" : ""}`} key={service.title}>
+                  <div className="service-icon"><Icon size={23} strokeWidth={1.6} /></div>
+                  <p className="service-number">0{index + 1}</p>
+                  <h3>{service.title}</h3>
+                  <p className="service-description">{service.description}</p>
+                  <div className="service-meta">
+                    <span><Clock3 size={15} /> {service.duration}</span>
+                    <strong>{service.price}</strong>
+                  </div>
+                  <a href="#reservar" aria-label={`Reservar ${service.title}`}>
+                    Consultar disponibilidad <ArrowRight size={16} />
+                  </a>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="barbers-section" id="barberos">
+        <div className="content-width">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow"><span /> Nuestro equipo</p>
+              <h2>Manos expertas,<br /><em>estilo auténtico.</em></h2>
+            </div>
+            <p className="section-intro">
+              Conoce a los barberos que convierten cada visita en una
+              experiencia hecha a tu medida.
+            </p>
+          </div>
+          <div className="barbers-grid">
+            {barbers.map((barber, index) => (
+              <article className="barber-card" key={barber.name}>
+                <div className={`barber-portrait portrait-${index + 1}`} aria-label={`Retrato ilustrativo de ${barber.name}`}>
+                  <span>{barber.initials}</span>
+                </div>
+                <div className="barber-info">
+                  <h3>{barber.name}</h3>
+                  <p>{barber.specialty}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="about-section" id="nosotros">
+        <div className="content-width about-grid">
+          <div className="about-art" aria-hidden="true">
+            <div className="about-emblem"><span>S</span></div>
+            <span className="about-word">STILOSHOW / BARBER SHOP</span>
+          </div>
+          <div className="about-copy">
+            <p className="eyebrow"><span /> Sobre StiloShow</p>
+            <h2>Más que un corte.<br /><em>Una actitud.</em></h2>
+            <p>
+              Creamos un espacio donde la técnica, la conversación y el buen
+              gusto se encuentran. Entra como eres. Sal con más confianza.
+            </p>
+            <a className="text-link" href="#reservar">Ven a conocernos <ArrowRight size={16} /></a>
+          </div>
+        </div>
+      </section>
+
+      <section className="booking-cta" id="reservar">
+        <div className="content-width booking-inner">
+          <div>
+            <p className="eyebrow eyebrow-light"><span /> Tu próximo look te espera</p>
+            <h2>Haz espacio para<br /><em>tu mejor versión.</em></h2>
+          </div>
+          <div className="booking-action">
+            <p>Reserva tu espacio en StiloShow.<br />Nosotros nos encargamos del resto.</p>
+            <button className="button button-light" type="button">
+              <CalendarDays size={18} /> Reservas próximamente
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <footer className="footer">
+        <div className="content-width footer-inner">
+          <div className="footer-brand">
+            <a className="brand brand-footer" href="#inicio">
+              <span className="brand-mark">S</span>
+              <span><strong>StiloShow</strong><small>Barbería masculina</small></span>
+            </a>
+            <p>Precisión, presencia y estilo.</p>
+          </div>
+          <div className="footer-contact">
+            <p>Visítanos</p>
+            <span>La Romana, República Dominicana</span>
+            <span>carlorijo4@gmail.com</span>
+          </div>
+          <a className="social-link" href="#inicio" aria-label="Redes sociales de StiloShow"><Sparkles size={18} /></a>
+        </div>
+        <div className="content-width footer-bottom">
+          <span>© 2026 StiloShow. Todos los derechos reservados.</span>
+          <span>Hecho con carácter y estilo.</span>
+        </div>
+      </footer>
+    </main>
   );
 }
