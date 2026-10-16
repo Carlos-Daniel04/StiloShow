@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StiloShow
 
-## Getting Started
+Aplicación web responsive para la gestión de una barbería masculina.
 
-First, run the development server:
+## Desarrollo local
+
+### Iniciar la aplicación
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Seed de desarrollo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El seed crea datos claramente identificables con el sufijo `.dev@stilshow.local`:
 
-## Learn More
+- Un administrador.
+- Dos empleados con perfil y horarios laborales.
+- Un cliente.
+- Tres servicios.
 
-To learn more about Next.js, take a look at the following resources:
+Antes de ejecutarlo, copia [`.env.example`](./.env.example) como `.env`, define
+`DATABASE_URL` y proporciona la contraseña del seed mediante una variable de
+entorno. La contraseña no está escrita en el código:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```powershell
+Copy-Item .env.example .env
+npx prisma migrate deploy
+$env:STILOSHOW_SEED_ADMIN_PASSWORD = "una-clave-local-de-al-menos-12-caracteres"
+npm run db:seed
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+El comando es idempotente: puede ejecutarse varias veces sin duplicar los datos
+de desarrollo. La contraseña se almacena como hash usando `scrypt` y un salt
+aleatorio.
 
-## Deploy on Vercel
+Las cuentas de desarrollo creadas son:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+Administrador: admin.dev@stilshow.local
+Empleado 1: empleado1.dev@stilshow.local
+Empleado 2: empleado2.dev@stilshow.local
+Cliente: cliente.dev@stilshow.local
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+El seed requiere que la base de datos PostgreSQL de `DATABASE_URL` ya tenga
+aplicada la migración inicial.
+
+## Autenticación
+
+La aplicación incluye registro público únicamente para clientes, inicio de
+sesión y cierre de sesión. Las contraseñas se almacenan como hashes `scrypt`;
+las sesiones se guardan en PostgreSQL y el navegador solo recibe una cookie
+`httpOnly`.
+
+Las rutas protegidas son:
+
+- `/cuenta` para clientes.
+- `/empleado` para empleados.
+- `/admin` para administradores.
+
+El acceso a cada ruta se valida nuevamente en el servidor según el rol, aunque
+el usuario intente escribir otra ruta manualmente.
+
+## Catálogo
+
+El catálogo público está disponible en:
+
+- `/servicios`, que muestra únicamente servicios activos desde PostgreSQL.
+- `/barberos`, que muestra únicamente empleados activos con horarios laborales activos.
+
+Ambas páginas incluyen estados de carga, error y lista vacía. La portada usa
+la misma API en `/api/catalogo` para sus vistas resumidas.
+
+## Calidad
+
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```

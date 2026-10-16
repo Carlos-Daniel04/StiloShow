@@ -7,42 +7,13 @@ import {
   Check,
   Clock3,
   Menu,
-  Scissors,
   ShieldCheck,
   Sparkles,
   UserRound,
   X,
 } from "lucide-react";
-
-const services = [
-  {
-    title: "Corte clásico",
-    description: "Precisión, acabado limpio y un estilo que habla por ti.",
-    duration: "45 min",
-    price: "RD$500",
-    icon: Scissors,
-  },
-  {
-    title: "Corte + barba",
-    description: "Un servicio completo para salir impecable de pies a cabeza.",
-    duration: "60 min",
-    price: "RD$800",
-    icon: Sparkles,
-  },
-  {
-    title: "Afeitado tradicional",
-    description: "Toalla caliente, navaja y el ritual clásico de una barbería.",
-    duration: "40 min",
-    price: "RD$600",
-    icon: ShieldCheck,
-  },
-];
-
-const barbers = [
-  { initials: "CP", name: "Carlos Pérez", specialty: "Cortes clásicos y barba" },
-  { initials: "JR", name: "Javier Rosario", specialty: "Fade y estilo urbano" },
-  { initials: "AM", name: "Alex Martínez", specialty: "Afeitado tradicional" },
-];
+import CatalogPreview from "@/components/catalog-preview";
+import EmployeePreview from "@/components/employee-preview";
 
 const navigation = [
   { label: "Inicio", href: "#inicio" },
@@ -83,7 +54,7 @@ export default function Home() {
                 {item.label}
               </a>
             ))}
-            <a className="button button-small button-bronze" href="#reservar" onClick={closeMenu}>
+            <a className="button button-small button-bronze" href="/iniciar-sesion" onClick={closeMenu}>
               Reservar una cita <ArrowRight size={16} />
             </a>
           </div>
@@ -101,7 +72,7 @@ export default function Home() {
               hombres que saben cómo quieren verse.
             </p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#reservar">
+              <a className="button button-primary" href="/iniciar-sesion">
                 Reservar una cita <ArrowRight size={18} />
               </a>
               <a className="text-link" href="#servicios">
@@ -158,26 +129,7 @@ export default function Home() {
               que mantiene tu estilo por más tiempo.
             </p>
           </div>
-          <div className="services-grid">
-            {services.map((service, index) => {
-              const Icon = service.icon;
-              return (
-                <article className={`service-card ${index === 1 ? "service-card-featured" : ""}`} key={service.title}>
-                  <div className="service-icon"><Icon size={23} strokeWidth={1.6} /></div>
-                  <p className="service-number">0{index + 1}</p>
-                  <h3>{service.title}</h3>
-                  <p className="service-description">{service.description}</p>
-                  <div className="service-meta">
-                    <span><Clock3 size={15} /> {service.duration}</span>
-                    <strong>{service.price}</strong>
-                  </div>
-                  <a href="#reservar" aria-label={`Reservar ${service.title}`}>
-                    Consultar disponibilidad <ArrowRight size={16} />
-                  </a>
-                </article>
-              );
-            })}
-          </div>
+          <CatalogPreview />
         </div>
       </section>
 
@@ -193,19 +145,8 @@ export default function Home() {
               experiencia hecha a tu medida.
             </p>
           </div>
-          <div className="barbers-grid">
-            {barbers.map((barber, index) => (
-              <article className="barber-card" key={barber.name}>
-                <div className={`barber-portrait portrait-${index + 1}`} aria-label={`Retrato ilustrativo de ${barber.name}`}>
-                  <span>{barber.initials}</span>
-                </div>
-                <div className="barber-info">
-                  <h3>{barber.name}</h3>
-                  <p>{barber.specialty}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          <EmployeePreview />
+          <a className="text-link section-more-link" href="/barberos">Conocer nuestro equipo <ArrowRight size={16} /></a>
         </div>
       </section>
 
@@ -222,7 +163,7 @@ export default function Home() {
               Creamos un espacio donde la técnica, la conversación y el buen
               gusto se encuentran. Entra como eres. Sal con más confianza.
             </p>
-            <a className="text-link" href="#reservar">Ven a conocernos <ArrowRight size={16} /></a>
+            <a className="text-link" href="/iniciar-sesion">Ven a conocernos <ArrowRight size={16} /></a>
           </div>
         </div>
       </section>

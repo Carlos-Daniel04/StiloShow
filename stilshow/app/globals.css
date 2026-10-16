@@ -202,7 +202,59 @@ h1 em, h2 em { color: var(--bronze); font-style: italic; }
   .footer-bottom span + span { margin-top: 4px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+  .auth-page, .private-page { display: grid; min-height: 100vh; place-items: center; padding: 32px 18px; background: radial-gradient(circle at top right, #3a3021, var(--charcoal) 42%); }
+  .auth-card, .private-card { width: min(100%, 480px); padding: 42px; border: 1px solid #ffffff20; background: var(--dark); box-shadow: 0 20px 55px #00000055; }
+  .auth-brand { display: inline-block; margin-bottom: 42px; color: var(--bronze); font: 700 22px Georgia, serif; letter-spacing: .08em; }
+  .auth-card h1, .private-card h1 { margin-bottom: 14px; font-size: clamp(38px, 8vw, 52px); }
+  .auth-intro, .private-card > p:not(.eyebrow) { color: #aaa49b; font-size: 14px; line-height: 1.7; }
+  .auth-form { display: grid; gap: 17px; margin-top: 28px; }
+  .auth-form label { display: grid; gap: 7px; color: var(--warm-white); font-size: 12px; font-weight: 700; }
+  .auth-form label span { color: var(--muted); font-weight: 400; }
+  .auth-form input { width: 100%; min-height: 48px; padding: 0 13px; border: 1px solid #ffffff30; border-radius: 2px; color: var(--warm-white); background: #111; outline: none; }
+  .auth-form input:focus { border-color: var(--bronze); box-shadow: 0 0 0 2px #c49a5a33; }
+  .auth-form button { width: 100%; cursor: pointer; }
+  .auth-form button:disabled { cursor: wait; opacity: .65; }
+  .form-error { margin: 0; padding: 11px 13px; border-left: 3px solid #b95050; color: #f0b8b8; background: #7a1f1f33; font-size: 13px; line-height: 1.5; }
+  .auth-switch { margin: 24px 0 0; color: var(--muted); font-size: 12px; text-align: center; }
+  .auth-switch a, .auth-back { color: var(--bronze); }
+  .auth-back { display: block; margin-top: 26px; font-size: 12px; text-align: center; }
+  .private-card .button { margin-top: 24px; cursor: pointer; }
+  @media (max-width: 520px) { .auth-card, .private-card { padding: 30px 22px; } }
+
+  .catalog-status, .catalog-loading, .catalog-error, .catalog-empty { color: #aaa49b; font-size: 14px; line-height: 1.7; }
+  .catalog-more-link, .section-more-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 25px; color: var(--bronze); font-size: 12px; font-weight: 700; }
+  .catalog-page { min-height: 100vh; padding: 58px 0 100px; color: var(--warm-white); background: radial-gradient(circle at 80% 0, #3a3021, var(--charcoal) 36%); }
+  .catalog-content > h1 { margin-bottom: 22px; }
+  .catalog-brand { display: inline-block; margin-bottom: 75px; color: var(--bronze); font: 700 21px Georgia, serif; letter-spacing: .08em; }
+  .catalog-intro { max-width: 510px; margin-bottom: 48px; color: #aaa49b; font-size: 14px; line-height: 1.75; }
+  .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .catalog-card { display: flex; min-height: 330px; flex-direction: column; padding: 27px; border: 1px solid #ffffff20; background: var(--dark); }
+  .catalog-card h2 { margin-bottom: 14px; font: 400 clamp(25px, 3vw, 34px)/1.05 Georgia, serif; }
+  .catalog-card > p:not(.catalog-card-label) { flex: 1; color: #aaa49b; font-size: 13px; line-height: 1.7; }
+  .catalog-card-label { margin-bottom: 18px; color: var(--bronze); font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+  .catalog-card-meta { display: flex; align-items: center; justify-content: space-between; margin: 22px 0 24px; color: #c7c2b9; font-size: 12px; }
+  .catalog-card-meta span { display: inline-flex; align-items: center; gap: 7px; }
+  .catalog-card-meta svg { color: var(--bronze); }
+  .catalog-card-meta strong { color: var(--bronze); font-size: 17px; }
+  .catalog-card .button { width: 100%; }
+  .employee-grid { grid-template-columns: repeat(3, 1fr); }
+  .employee-card .barber-portrait { height: 210px; margin: -27px -27px 25px; }
+  .employee-card > p:not(.catalog-card-label) { flex: initial; margin-bottom: 18px; }
+  .employee-availability { margin-bottom: 24px; color: var(--bronze); font-size: 12px; line-height: 1.5; }
+  .catalog-error + .button { margin-top: 20px; cursor: pointer; }
+
+  @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+  @media (max-width: 900px) {
+    .catalog-grid, .employee-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .catalog-page { padding-top: 35px; }
+    .catalog-brand { margin-bottom: 55px; }
+    .catalog-grid, .employee-grid { grid-template-columns: 1fr; }
+    .catalog-card { min-height: 300px; }
+  }

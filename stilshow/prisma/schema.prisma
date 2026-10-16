@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum RolUsuario {
@@ -39,6 +38,7 @@ model Usuario {
   rol             RolUsuario      @default(CLIENTE)
   activo          Boolean         @default(true)
   perfilEmpleado  PerfilEmpleado?
+  sesiones        Sesion[]
   citasCliente    Cita[]          @relation("CitasCliente")
   creadoEn        DateTime        @default(now())
   actualizadoEn   DateTime        @updatedAt
@@ -46,6 +46,19 @@ model Usuario {
   @@index([rol, activo])
   @@index([activo])
   @@map("usuarios")
+}
+
+model Sesion {
+  id         String   @id @default(uuid()) @db.Uuid
+  usuarioId  String   @db.Uuid
+  tokenHash  String   @unique @db.VarChar(64)
+  expiraEn   DateTime
+  creadoEn   DateTime @default(now())
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId, expiraEn])
+  @@index([expiraEn])
+  @@map("sesiones")
 }
 
 model PerfilEmpleado {
